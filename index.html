@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FactCheck – Separate Fact from Fiction</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Inter font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          },
+          backgroundImage: {
+            'hero-gradient':
+              'radial-gradient(circle at top left, rgba(59,130,246,0.18), transparent 55%), radial-gradient(circle at top right, rgba(56,189,248,0.16), transparent 55%)',
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="font-sans bg-slate-950 text-gray-100 flex flex-col min-h-screen">
+  <!-- Decorative background glow -->
+  <div class="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_top,_rgba(59,130,246,0.25),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(15,23,42,0.9),_rgba(15,23,42,1))] -z-10"></div>
+
+  <!-- Header / Navigation -->
+  <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur">
+    <nav class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <div class="flex items-center gap-2">
+          <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-blue-500 to-cyan-400 text-white text-lg font-bold shadow-lg shadow-blue-500/40">
+            F
+          </span>
+          <span class="text-xl sm:text-2xl font-extrabold tracking-tight text-white">
+            Fact<span class="text-blue-400">Check</span>
+          </span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-200">
+            <a id="homeLink" href="#" class="hover:text-blue-400 transition">Home</a>
+            <a href="#trending-section" class="hover:text-blue-400 transition">Trending</a>
+            <a href="#about-section" class="hover:text-blue-400 transition">About Us</a>
+          </div>
+          <div class="flex items-center gap-3">
+            <span
+              id="userInfo"
+              class="hidden text-xs sm:text-sm text-slate-300"
+            ></span>
+            <button
+              type="button"
+              id="loginButton"
+              class="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900/70 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium text-slate-50 shadow-sm hover:border-blue-500 hover:bg-slate-900 hover:text-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow shadow-emerald-400/80"></span>
+              <span>Log in</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main class="flex-1">
+    <!-- Hero / Search Section -->
+    <section
+      id="hero-section"
+      class="border-b border-slate-800 bg-hero-gradient"
+    >
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-18 md:py-20">
+        <div class="grid gap-10 md:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] items-center">
+          <div class="space-y-6 text-left">
+            <p class="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-slate-900/60 px-3 py-1 text-[11px] font-medium uppercase tracking-wide text-blue-200 shadow-sm">
+              <span class="h-1.5 w-1.5 rounded-full bg-green-400"></span>
+              Real-time verification demo
+            </p>
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white leading-tight">
+              Separate
+              <span class="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-300 bg-clip-text text-transparent">
+                fact
+              </span>
+              from fiction.
+            </h1>
+            <p class="text-sm sm:text-base md:text-lg text-slate-200 max-w-xl">
+              FactCheck helps you quickly understand how trustworthy a claim
+              appears, see how others voted, and share your own reasoned
+              opinion with transparent references.
+            </p>
+          </div>
+
+          <div class="relative">
+            <div class="absolute inset-0 -z-10 blur-3xl bg-gradient-to-br from-blue-500/40 via-cyan-400/10 to-transparent"></div>
+            <div class="rounded-3xl border border-slate-700/70 bg-slate-900/70 shadow-2xl shadow-blue-900/40 p-4 sm:p-5">
+              <h2 class="text-sm font-semibold text-slate-100 mb-3">
+                Check a claim
+              </h2>
+              <form id="factForm" class="space-y-3">
+                <div>
+                  <label
+                    for="queryInput"
+                    class="block text-xs font-medium text-slate-300 mb-1.5"
+                  >
+                    News headline or topic
+                  </label>
+                  <div class="relative">
+                    <input
+                      id="queryInput"
+                      type="text"
+                      placeholder="e.g. New study proves coffee increases lifespan"
+                      class="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-3.5 py-2.5 text-xs sm:text-sm text-slate-50 placeholder:text-slate-500 shadow-inner shadow-slate-950 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    />
+                    <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                      <svg
+                        class="h-4 w-4 text-slate-500"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  type="submit"
+                  class="flex w-full items-center justify-center rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-500 px-4 py-2.5 text-xs sm:text-sm font-semibold text-white shadow-lg shadow-blue-600/40 hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-950"
+                >
+                  Run fact-check
+                </button>
+                <p
+                  id="errorMessage"
+                  class="mt-1 text-xs text-red-400 hidden"
+                >
+                  Please enter a headline or topic to check.
+                </p>
+              </form>
+              <p class="mt-3 text-[11px] text-slate-400">
+                Demo only – results and votes are simulated to show how a real
+                system could look.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Display Section -->
+    <section
+      id="resultsSection"
+      class="hidden"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-7 sm:py-9">
+        <!-- Loading State -->
+        <div
+          id="loadingState"
+          class="flex items-center justify-center gap-3 text-slate-200 text-sm sm:text-base"
+        >
+          <svg
+            class="animate-spin h-5 w-5 sm:h-6 sm:w-6 text-cyan-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            ></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+            ></path>
+          </svg>
+          <span>Analyzing claim, community votes, and references…</span>
+        </div>
+
+        <!-- Result Card -->
+        <article
+          id="resultCard"
+          class="hidden mt-4 sm:mt-6 rounded-3xl border border-slate-800 bg-slate-900/80 shadow-2xl shadow-slate-950/70 overflow-hidden"
+        >
+          <div class="px-5 sm:px-6 py-4 sm:py-5 border-b border-slate-800/80 bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <h2 class="text-[11px] font-semibold tracking-[0.14em] text-slate-400 uppercase">
+                  Fact-check result
+                </h2>
+                <p
+                  id="resultQuery"
+                  class="mt-2 text-sm sm:text-lg font-semibold text-slate-50"
+                ></p>
+              </div>
+              <!-- small controls on header right -->
+              <button
+                type="button"
+                id="clearResultButton"
+                class="inline-flex items-center gap-1 rounded-full border border-slate-700 bg-slate-900/80 px-3 py-1 text-[11px] font-medium text-slate-300 hover:border-rose-500 hover:text-rose-300"
+              >
+                <span>Remove result</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="px-5 sm:px-6 py-4 sm:py-5 space-y-5 sm:space-y-6">
+            <!-- Status + Accuracy -->
+            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                  Status
+                </span>
+                <span
+                  id="resultStatusBadge"
+                  class="inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-sm shadow-slate-950/70"
+                >
+                  <!-- Badge text -->
+                </span>
+              </div>
+
+              <div class="w-full lg:w-auto">
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">
+                    Accuracy estimate
+                  </span>
+                  <span
+                    id="accuracyText"
+                    class="text-xs font-semibold text-slate-50"
+                  ></span>
+                </div>
+                <div class="w-full lg:w-72 bg-slate-800 rounded-full h-2.5 overflow-hidden">
+                  <div
+                    id="accuracyBar"
+                    class="h-2.5 rounded-full transition-all"
+                    style="width: 0%;"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="grid gap-4 md:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]">
+              <div>
+                <h3 class="text-sm font-semibold text-slate-50 mb-1.5">
+                  Summary
+                </h3>
+                <p
+                  id="resultSummary"
+                  class="text-xs sm:text-sm text-slate-200 leading-relaxed"
+                ></p>
+              </div>
+
+              <!-- Community verification statistics -->
+              <div class="rounded-2xl border border-slate-800 bg-slate-950/70 p-3 sm:p-4">
+                <h3 class="text-xs font-semibold text-slate-50">
+                  Community verification
+                </h3>
+                <p class="text-[11px] text-slate-400 mb-2">
+                  Simulated votes from the last 24 hours across major verdicts.
+                </p>
+
+                <div id="votesChart" class="space-y-2 mb-2">
+                  <!-- Bars populated by JavaScript -->
+                </div>
+
+                <dl
+                  id="votesStats"
+                  class="mt-2 grid gap-2 text-[11px] text-slate-200 sm:grid-cols-3"
+                >
+                  <!-- Counts populated by JavaScript -->
+                </dl>
+              </div>
+            </div>
+
+            <!-- Evidence viewer -->
+            <div class="pt-4 border-t border-slate-800/80">
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <h3 class="text-sm font-semibold text-slate-50">
+                  Evidence &amp; sources
+                </h3>
+                <button
+                  type="button"
+                  id="toggleEvidence"
+                  class="text-[11px] font-medium text-cyan-300 hover:text-cyan-200 flex items-center gap-1"
+                >
+                  <span>Show details</span>
+                  <svg
+                    id="toggleEvidenceIcon"
+                    class="h-3.5 w-3.5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 111.06 1.06l-4.24 4.25a.75.75 0 01-1.06 0L5.21 8.29a.75.75 0 01.02-1.08z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </button>
+              </div>
+
+              <div
+                id="evidencePanel"
+                class="hidden space-y-3 text-xs sm:text-sm"
+              >
+                <div>
+                  <h4 class="font-semibold text-slate-100 mb-1.5">
+                    Key sources
+                  </h4>
+                  <ul
+                    id="evidenceSources"
+                    class="list-disc list-inside space-y-1 text-slate-200"
+                  ></ul>
+                </div>
+
+                <div>
+                  <h4 class="font-semibold text-slate-100 mb-1.5">
+                    Source websites
+                  </h4>
+                  <ul
+                    id="evidenceWebsites"
+                    class="list-disc list-inside space-y-1 text-slate-200"
+                  ></ul>
+                </div>
+
+                <div>
+                  <h4 class="font-semibold text-slate-100 mb-1.5">
+                    Documents
+                  </h4>
+                  <ul
+                    id="evidenceDocs"
+                    class="list-disc list-inside space-y-1 text-slate-200"
+                  ></ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Opinion section -->
+            <div class="pt-4 border-t border-slate-800/80">
+              <div class="flex items-center justify-between gap-3 mb-3">
+                <div>
+                  <h3 class="text-sm font-semibold text-slate-50">
+                    Share your opinion &amp; reference
+                  </h3>
+                  <p class="text-[11px] text-slate-400">
+                    Add your assessment of this claim and the source you used.
+                    Login is required to keep contributions accountable.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Not logged in message -->
+              <div
+                id="opinionLoginNotice"
+                class="rounded-2xl border border-slate-800 bg-slate-950/70 px-3.5 py-3 text-[11px] text-slate-200 flex items-center justify-between gap-3"
+              >
+                <div class="flex items-start gap-2">
+                  <span class="mt-0.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-slate-800 border border-slate-600 text-[9px] text-slate-200">
+                    i
+                  </span>
+                  <p>
+                    You need to be logged in to submit an opinion and reference
+                    for this claim.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  id="opinionLoginButton"
+                  class="inline-flex items-center rounded-full bg-blue-500 px-3 py-1.5 text-[11px] font-medium text-white hover:bg-blue-600"
+                >
+                  Log in
+                </button>
+              </div>
+
+              <!-- Opinion form -->
+              <form
+                id="opinionForm"
+                class="hidden mt-3 rounded-2xl border border-slate-800 bg-slate-950/80 px-3.5 py-3.5 space-y-3"
+              >
+                <div class="flex items-center justify-between gap-3">
+                  <p class="text-[11px] text-slate-300">
+                    Logged in as
+                    <span class="font-semibold text-sky-300" id="opinionUserName"></span>
+                  </p>
+                </div>
+                <div>
+                  <label
+                    for="opinionInput"
+                    class="block text-[11px] font-medium text-slate-200 mb-1"
+                  >
+                    Your opinion on this claim
+                  </label>
+                  <textarea
+                    id="opinionInput"
+                    rows="3"
+                    class="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Explain briefly why you think this claim is true, false, or somewhere in between."
+                  ></textarea>
+                </div>
+                <div>
+                  <label
+                    for="referenceInput"
+                    class="block text-[11px] font-medium text-slate-200 mb-1"
+                  >
+                    Reference / source URL
+                  </label>
+                  <input
+                    id="referenceInput"
+                    type="text"
+                    class="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 shadow-inner focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="Paste a link to the article, report, or document you used."
+                  />
+                  <p class="mt-1 text-[10px] text-slate-400">
+                    In a production system, links would be automatically checked
+                    for safety and authenticity.
+                  </p>
+                </div>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <p
+                    id="opinionError"
+                    class="text-[11px] text-red-400 hidden"
+                  >
+                    Please add both your opinion and a reference link.
+                  </p>
+                  <button
+                    type="submit"
+                    class="ml-auto inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-emerald-500 to-cyan-500 px-3.5 py-1.5 text-[11px] font-semibold text-slate-950 shadow hover:brightness-110"
+                  >
+                    <svg
+                      class="h-3.5 w-3.5"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M3.5 3.5l13 3.5-5.5 2.5L9.5 14.5z"></path>
+                      <path d="M9.5 9.5l-6-3"></path>
+                    </svg>
+                    <span>Submit opinion</span>
+                  </button>
+                </div>
+              </form>
+
+              <!-- Opinions list -->
+              <div class="mt-4">
+                <h4 class="text-xs font-semibold text-slate-100 mb-1.5">
+                  Community opinions for this claim
+                </h4>
+                <p class="text-[11px] text-slate-400 mb-2">
+                  These are demo entries showing how user-submitted opinions with
+                  references could appear.
+                </p>
+                <div
+                  id="opinionsList"
+                  class="space-y-2"
+                >
+                  <!-- Filled by JS -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Disclaimer -->
+            <p class="text-[11px] text-slate-500 pt-2 border-t border-dashed border-slate-800/80 mt-2">
+              This is a simulated interface for demonstration only and does not
+              represent real-time fact-checking or verified user contributions.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Trending Now Section -->
+    <section
+      id="trending-section"
+      class="border-t border-slate-800 bg-slate-950/80"
+    >
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-12">
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-6">
+          <div>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-50">
+              Trending claims (last 24 hours)
+            </h2>
+            <p class="mt-1 text-xs sm:text-sm text-slate-300">
+              These are the most actively verified claims in the community demo.
+            </p>
+          </div>
+
+          <!-- Filters -->
+          <div class="flex flex-wrap gap-3 sm:justify-end">
+            <div class="flex flex-col">
+              <label
+                for="categoryFilter"
+                class="text-[11px] font-semibold text-slate-300 mb-1"
+              >
+                Topic category
+              </label>
+              <select
+                id="categoryFilter"
+                class="text-[11px] sm:text-xs border border-slate-700 bg-slate-900/80 rounded-full px-3 py-1.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">All topics</option>
+                <option value="Health">Health</option>
+                <option value="Technology">Technology</option>
+                <option value="Environment">Environment</option>
+                <option value="Politics">Politics</option>
+              </select>
+            </div>
+
+            <div class="flex flex-col">
+              <label
+                for="statusFilter"
+                class="text-[11px] font-semibold text-slate-300 mb-1"
+              >
+                Verification status
+              </label>
+              <select
+                id="statusFilter"
+                class="text-[11px] sm:text-xs border border-slate-700 bg-slate-900/80 rounded-full px-3 py-1.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="all">All statuses</option>
+                <option value="Verified">Verified</option>
+                <option value="False">False</option>
+                <option value="Mostly False">Mostly False</option>
+                <option value="Unproven">Unproven</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div
+          id="trendingGrid"
+          class="grid gap-4 sm:gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          <!-- Cards populated by JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About Us (simple placeholder) -->
+    <section
+      id="about-section"
+      class="border-t border-slate-800 bg-slate-950/95"
+    >
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-9 sm:py-12">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-50 mb-3">
+          About FactCheck
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-200 leading-relaxed">
+          FactCheck is a demo interface designed to explore what transparent,
+          community-assisted verification could look like. In a production
+          environment, each claim would be evaluated by a combination of expert
+          reviewers, automated checks, and rigorous sourcing rules.
+        </p>
+        <p class="mt-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
+          Opinions and references shown here are simulated and do not represent
+          real users or real-time judgments. Use this as inspiration for how you
+          might design a responsible, data-driven verification platform that
+          respects evidence, context, and diverse perspectives.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 bg-slate-950 text-slate-400 text-[11px] sm:text-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>&copy; <span id="yearSpan"></span> FactCheck. All rights reserved.</p>
+      <p>Demo interface – not a real fact-checking service.</p>
+    </div>
+  </footer>
+
+  <!-- Login Modal -->
+  <div
+    id="loginModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60 backdrop-blur-sm"
+  >
+    <div
+      class="relative w-full max-w-sm rounded-3xl border border-slate-700 bg-slate-950/95 px-5 py-5 shadow-2xl shadow-slate-950/80"
+    >
+      <button
+        type="button"
+        id="closeLoginModal"
+        class="absolute right-3 top-3 inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-700 bg-slate-900 text-slate-400 hover:text-slate-100 hover:bg-slate-800"
+      >
+        <span class="sr-only">Close</span>
+        ✕
+      </button>
+      <div class="mb-4">
+        <p class="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-slate-900/60 px-3 py-1 text-[10px] font-medium text-blue-200">
+          Secure demo login
+        </p>
+      </div>
+      <h2 class="text-lg font-semibold text-slate-50 mb-1">
+        Log in to contribute
+      </h2>
+      <p class="text-[11px] text-slate-300 mb-4">
+        This is a front-end only demo login. No real accounts are created and
+        your data is not sent anywhere.
+      </p>
+
+      <form id="loginForm" class="space-y-3">
+        <div>
+          <label
+            for="loginName"
+            class="block text-[11px] font-medium text-slate-200 mb-1"
+          >
+            Display name
+          </label>
+          <input
+            id="loginName"
+            type="text"
+            required
+            class="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="How should we show your name?"
+          />
+        </div>
+        <div>
+          <label
+            for="loginEmail"
+            class="block text-[11px] font-medium text-slate-200 mb-1"
+          >
+            Email (demo)
+          </label>
+          <input
+            id="loginEmail"
+            type="email"
+            required
+            class="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="name@example.com"
+          />
+        </div>
+        <div>
+          <label
+            for="loginPassword"
+            class="block text-[11px] font-medium text-slate-200 mb-1"
+          >
+            Password (demo)
+          </label>
+          <input
+            id="loginPassword"
+            type="password"
+            required
+            class="w-full rounded-2xl border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-50 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="••••••••"
+          />
+          <p class="mt-1 text-[10px] text-slate-500">
+            In a real app this would be securely encrypted and sent to a
+            back-end. Here it only stays in your browser.
+          </p>
+        </div>
+        <button
+          type="submit"
+          class="mt-1 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-500 px-4 py-2.5 text-xs font-semibold text-white shadow-lg shadow-blue-600/40 hover:brightness-110 focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:ring-offset-2 focus:ring-offset-slate-950"
+        >
+          <span>Log in</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JavaScript Functionality -->
+  <script>
+    (function () {
+      const form = document.getElementById('factForm');
+      const queryInput = document.getElementById('queryInput');
+      const errorMessage = document.getElementById('errorMessage');
+
+      const resultsSection = document.getElementById('resultsSection');
+      const loadingState = document.getElementById('loadingState');
+      const resultCard = document.getElementById('resultCard');
+      const resultQuery = document.getElementById('resultQuery');
+      const resultStatusBadge = document.getElementById('resultStatusBadge');
+      const accuracyText = document.getElementById('accuracyText');
+      const accuracyBar = document.getElementById('accuracyBar');
+      const resultSummary = document.getElementById('resultSummary');
+
+      const votesChart = document.getElementById('votesChart');
+      const votesStats = document.getElementById('votesStats');
+
+      const toggleEvidenceBtn = document.getElementById('toggleEvidence');
+      const toggleEvidenceIcon = document.getElementById('toggleEvidenceIcon');
+      const evidencePanel = document.getElementById('evidencePanel');
+      const evidenceSourcesList = document.getElementById('evidenceSources');
+      const evidenceWebsitesList = document.getElementById('evidenceWebsites');
+      const evidenceDocsList = document.getElementById('evidenceDocs');
+
+      const trendingGrid = document.getElementById('trendingGrid');
+      const heroSection = document.getElementById('hero-section');
+      const yearSpan = document.getElementById('yearSpan');
+
+      const categoryFilter = document.getElementById('categoryFilter');
+      const statusFilter = document.getElementById('statusFilter');
+      const homeLink = document.getElementById('homeLink');
+      const clearResultButton = document.getElementById('clearResultButton');
+
+      // Login related
+      const loginButton = document.getElementById('loginButton');
+      const loginModal = document.getElementById('loginModal');
+      const closeLoginModalBtn = document.getElementById('closeLoginModal');
+      const loginForm = document.getElementById('loginForm');
+      const loginNameInput = document.getElementById('loginName');
+      const loginEmailInput = document.getElementById('loginEmail');
+      const loginPasswordInput = document.getElementById('loginPassword');
+      const userInfo = document.getElementById('userInfo');
+
+      const opinionLoginNotice = document.getElementById('opinionLoginNotice');
+      const opinionLoginButton = document.getElementById('opinionLoginButton');
+      const opinionForm = document.getElementById('opinionForm');
+      const opinionUserName = document.getElementById('opinionUserName');
+      const opinionInput = document.getElementById('opinionInput');
+      const referenceInput = document.getElementById('referenceInput');
+      const opinionError = document.getElementById('opinionError');
+      const opinionsList = document.getElementById('opinionsList');
+
+      let currentTimeout = null;
+
+      yearSpan.textContent = new Date().getFullYear();
+
+      let isLoggedIn = false;
+      let currentUser = null;
+
+      const statusOptions = [
+        {
+          label: 'Verified True',
+          badgeClass: 'bg-green-600',
+          tone: 'supporting evidence from multiple independent sources.',
+        },
+        {
+          label: 'Mostly False',
+          badgeClass: 'bg-red-600',
+          tone: 'significant inconsistencies and a lack of corroborating evidence.',
+        },
+        {
+          label: 'Mixed',
+          badgeClass: 'bg-yellow-500 text-slate-950',
+          tone: 'a mixture of accurate context and misleading or incomplete details.',
+        },
+      ];
+
+      // Store opinions in-memory (per session)
+      const opinions = [];
+
+      function getAccuracyClass(percentage) {
+        if (percentage >= 70) {
+          return 'bg-green-400';
+        } else if (percentage >= 40) {
+          return 'bg-yellow-300';
+        } else {
+          return 'bg-red-400';
+        }
+      }
+
+      function clearAccuracyClasses() {
+        accuracyBar.classList.remove('bg-green-400', 'bg-yellow-300', 'bg-red-400');
+      }
+
+      function randomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      // --- LOGIN HELPERS ---
+      function openLoginModal() {
+        loginModal.classList.remove('hidden');
+        loginModal.classList.add('flex');
+        loginForm.reset();
+        loginNameInput.focus();
+      }
+
+      function closeLoginModal() {
+        loginModal.classList.remove('flex');
+        loginModal.classList.add('hidden');
+      }
+
+      function updateLoginUI() {
+        if (isLoggedIn && currentUser) {
+          userInfo.textContent = 'Logged in as ' + currentUser.name;
+          userInfo.classList.remove('hidden');
+
+          loginButton.innerHTML =
+            '<span class="inline-flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-tr from-blue-500 to-emerald-400 text-[11px] font-bold text-slate-950 mr-1">' +
+            (currentUser.name.charAt(0).toUpperCase() || '?') +
+            '</span>' +
+            '<span class="hidden sm:inline">Account</span>';
+
+          opinionLoginNotice.classList.add('hidden');
+          opinionForm.classList.remove('hidden');
+          opinionUserName.textContent = currentUser.name;
+        } else {
+          userInfo.classList.add('hidden');
+          loginButton.innerHTML =
+            '<span class="h-1.5 w-1.5 rounded-full bg-emerald-400 shadow shadow-emerald-400/80"></span><span>Log in</span>';
+
+          opinionForm.classList.add('hidden');
+          opinionLoginNotice.classList.remove('hidden');
+        }
+      }
+
+      // Community votes chart
+      function renderVotes(statusLabel) {
+        const verdictLabels = ['Verified True', 'Mostly False', 'Mixed'];
+        const votes = {};
+        verdictLabels.forEach((label) => {
+          votes[label] = randomInt(50, 500);
+        });
+
+        const totalVotes = verdictLabels.reduce(
+          (sum, label) => sum + votes[label],
+          0
+        );
+
+        votesChart.innerHTML = '';
+        votesStats.innerHTML = '';
+
+        verdictLabels.forEach((label) => {
+          const count = votes[label];
+          const pct = totalVotes ? Math.round((count / totalVotes) * 100) : 0;
+
+          const row = document.createElement('div');
+          row.className =
+            'flex flex-col gap-1 ' +
+            (label === statusLabel
+              ? 'ring-1 ring-cyan-400/60 ring-offset-1 ring-offset-slate-900 rounded-md px-2 py-1 bg-slate-900'
+              : '');
+
+          const header = document.createElement('div');
+          header.className =
+            'flex items-center justify-between text-[11px] sm:text-xs text-slate-100';
+
+          const labelSpan = document.createElement('span');
+          labelSpan.textContent = label;
+
+          const valueSpan = document.createElement('span');
+          valueSpan.textContent = pct + '%';
+
+          header.appendChild(labelSpan);
+          header.appendChild(valueSpan);
+
+          const barTrack = document.createElement('div');
+          barTrack.className = 'w-full bg-slate-800 rounded-full h-2.5 overflow-hidden';
+
+          const bar = document.createElement('div');
+          bar.className = 'h-2.5 rounded-full transition-all';
+          bar.style.width = pct + '%';
+
+          if (label === 'Verified True') {
+            bar.classList.add('bg-emerald-400');
+          } else if (label === 'Mostly False') {
+            bar.classList.add('bg-rose-500');
+          } else {
+            bar.classList.add('bg-amber-300');
+          }
+
+          barTrack.appendChild(bar);
+          row.appendChild(header);
+          row.appendChild(barTrack);
+          votesChart.appendChild(row);
+
+          const dt = document.createElement('dt');
+          dt.className = 'font-medium text-slate-100';
+          dt.textContent = label;
+
+          const dd = document.createElement('dd');
+          dd.className = 'text-slate-300';
+          dd.textContent =
+            count.toLocaleString() +
+            ' votes · ' +
+            (totalVotes ? Math.round((count / totalVotes) * 100) : 0) +
+            '%';
+
+          votesStats.appendChild(dt);
+          votesStats.appendChild(dd);
+        });
+      }
+
+      // Evidence viewer data
+      const mockEvidenceSources = [
+        'International Fact-Checking Network summary (2024)',
+        'Independent policy analysis from a non-partisan research group',
+        'Official government statistics and budget reports',
+        'Peer-reviewed academic journal article on the topic',
+        'Reputable global news outlet investigative report',
+      ];
+
+      const mockEvidenceDocs = [
+        'Full methodology report (PDF)',
+        'Official press release (HTML)',
+        'Parliamentary hearing transcript (PDF)',
+        'Dataset of referenced statistics (CSV)',
+      ];
+
+      const mockEvidenceWebsites = [
+        'https://www.reuters.com',
+        'https://www.bbc.com/news',
+        'https://www.who.int',
+        'https://www.imf.org',
+        'https://www.un.org',
+      ];
+
+      function renderEvidence(query) {
+        evidenceSourcesList.innerHTML = '';
+        evidenceWebsitesList.innerHTML = '';
+        evidenceDocsList.innerHTML = '';
+
+        const sourceCount = 3;
+        for (let i = 0; i < sourceCount; i++) {
+          const src = mockEvidenceSources[i % mockEvidenceSources.length];
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#';
+          a.className = 'text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline';
+          a.textContent = src;
+          a.title = 'Preview source related to "' + query + '"';
+          li.appendChild(a);
+          evidenceSourcesList.appendChild(li);
+        }
+
+        const websiteCount = 3;
+        for (let i = 0; i < websiteCount; i++) {
+          const url = mockEvidenceWebsites[i % mockEvidenceWebsites.length];
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = url;
+          a.target = '_blank';
+          a.rel = 'noreferrer noopener';
+          a.className =
+            'text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline break-all';
+          a.textContent = url;
+          li.appendChild(a);
+          evidenceWebsitesList.appendChild(li);
+        }
+
+        const docCount = 2;
+        for (let i = 0; i < docCount; i++) {
+          const doc = mockEvidenceDocs[i % mockEvidenceDocs.length];
+          const li = document.createElement('li');
+          const a = document.createElement('a');
+          a.href = '#';
+          a.className = 'text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline';
+          a.textContent = doc;
+          a.title = 'Open supporting document for "' + query + '"';
+          li.appendChild(a);
+          evidenceDocsList.appendChild(li);
+        }
+      }
+
+      function renderOpinionsForQuery(query) {
+        opinionsList.innerHTML = '';
+
+        const matching = opinions.filter(
+          (o) => o.query.toLowerCase() === query.toLowerCase()
+        );
+
+        if (!matching.length) {
+          const empty = document.createElement('p');
+          empty.className = 'text-[11px] text-slate-400';
+          empty.textContent =
+            'No community opinions have been recorded for this claim yet in this demo.';
+          opinionsList.appendChild(empty);
+          return;
+        }
+
+        matching
+          .slice()
+          .sort((a, b) => b.timestamp - a.timestamp)
+          .forEach((opinion) => {
+            const card = document.createElement('div');
+            card.className =
+              'rounded-2xl border border-slate-800 bg-slate-950/80 px-3 py-2.5 text-[11px] text-slate-200 flex flex-col gap-1.5';
+
+            const topRow = document.createElement('div');
+            topRow.className = 'flex items-center justify-between gap-2';
+
+            const name = document.createElement('span');
+            name.className = 'font-semibold text-sky-300';
+            name.textContent = opinion.user;
+
+            const time = document.createElement('span');
+            time.className = 'text-[10px] text-slate-500';
+            time.textContent = opinion.timestamp.toLocaleTimeString(undefined, {
+              hour: '2-digit',
+              minute: '2-digit',
+            });
+
+            topRow.appendChild(name);
+            topRow.appendChild(time);
+
+            const body = document.createElement('p');
+            body.textContent = opinion.text;
+
+            const ref = document.createElement('a');
+            ref.href = opinion.reference || '#';
+            ref.target = '_blank';
+            ref.rel = 'noreferrer noopener';
+            ref.className =
+              'text-[10px] text-cyan-300 hover:text-cyan-200 underline-offset-2 hover:underline truncate';
+            ref.textContent = opinion.reference || 'Reference link';
+
+            const refLabel = document.createElement('span');
+            refLabel.className = 'text-[10px] text-slate-500';
+            refLabel.textContent = 'Reference: ';
+
+            const refRow = document.createElement('div');
+            refRow.className = 'flex items-center gap-1';
+            refRow.appendChild(refLabel);
+            refRow.appendChild(ref);
+
+            card.appendChild(topRow);
+            card.appendChild(body);
+            card.appendChild(refRow);
+
+            opinionsList.appendChild(card);
+          });
+      }
+
+      // CLEAR / RESET FUNCTIONALITY
+      function clearResults() {
+        // Clear any pending simulated request
+        if (currentTimeout) {
+          clearTimeout(currentTimeout);
+          currentTimeout = null;
+        }
+
+        // Hide result + loading
+        resultsSection.classList.add('hidden');
+        loadingState.classList.add('hidden');
+        resultCard.classList.add('hidden');
+
+        // Clear search input + error styles
+        queryInput.value = '';
+        errorMessage.classList.add('hidden');
+        queryInput.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+
+        // Reset some UI pieces
+        resultQuery.textContent = '';
+        resultSummary.textContent = '';
+        resultStatusBadge.textContent = '';
+        resultStatusBadge.className = 'inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-sm shadow-slate-950/70';
+
+        accuracyText.textContent = '';
+        clearAccuracyClasses();
+        accuracyBar.style.width = '0%';
+
+        votesChart.innerHTML = '';
+        votesStats.innerHTML = '';
+
+        evidencePanel.classList.add('hidden');
+        toggleEvidenceBtn.querySelector('span').textContent = 'Show details';
+        toggleEvidenceIcon.style.transform = 'rotate(0deg)';
+        evidenceSourcesList.innerHTML = '';
+        evidenceWebsitesList.innerHTML = '';
+        evidenceDocsList.innerHTML = '';
+
+        opinionsList.innerHTML = '';
+      }
+
+      function runFactCheck(query) {
+        const trimmed = query.trim();
+        if (!trimmed) return;
+
+        // Clear error state
+        errorMessage.classList.add('hidden');
+        queryInput.classList.remove('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+
+        // Show section + loading
+        resultsSection.classList.remove('hidden');
+        loadingState.classList.remove('hidden');
+        resultCard.classList.add('hidden');
+
+        evidencePanel.classList.add('hidden');
+        toggleEvidenceBtn.querySelector('span').textContent = 'Show details';
+        toggleEvidenceIcon.style.transform = 'rotate(0deg)';
+
+        opinionError.classList.add('hidden');
+
+        if (currentTimeout) {
+          clearTimeout(currentTimeout);
+        }
+
+        currentTimeout = setTimeout(() => {
+          const status = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+          const accuracy = Math.floor(Math.random() * 101);
+
+          resultQuery.textContent = trimmed;
+
+          resultStatusBadge.textContent = status.label;
+          resultStatusBadge.className =
+            'inline-flex items-center px-3 py-1.5 rounded-full text-xs font-semibold text-white shadow-sm shadow-slate-950/70 ' +
+            status.badgeClass;
+
+          accuracyText.textContent = accuracy + '% accurate (demo)';
+          clearAccuracyClasses();
+          accuracyBar.classList.add(getAccuracyClass(accuracy));
+          accuracyBar.style.width = accuracy + '%';
+
+          resultSummary.textContent =
+            'Our analysis indicates that this claim is best described as "' +
+            status.label +
+            '". This simulated assessment is based on ' +
+            status.tone +
+            ' Treat this as a visual example only; in reality, you would consult trusted fact-checkers and primary documents before drawing conclusions.';
+
+          renderVotes(status.label);
+          renderEvidence(trimmed);
+          renderOpinionsForQuery(trimmed);
+
+          loadingState.classList.add('hidden');
+          resultCard.classList.remove('hidden');
+        }, 1500);
+      }
+
+      // Form submit handler
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        const query = queryInput.value;
+
+        if (!query.trim()) {
+          errorMessage.classList.remove('hidden');
+          queryInput.classList.add('border-red-500', 'focus:ring-red-500', 'focus:border-red-500');
+          return;
+        }
+
+        runFactCheck(query);
+      });
+
+      // Evidence toggle
+      toggleEvidenceBtn.addEventListener('click', () => {
+        const isHidden = evidencePanel.classList.contains('hidden');
+        if (isHidden) {
+          evidencePanel.classList.remove('hidden');
+          toggleEvidenceBtn.querySelector('span').textContent = 'Hide details';
+          toggleEvidenceIcon.style.transform = 'rotate(180deg)';
+        } else {
+          evidencePanel.classList.add('hidden');
+          toggleEvidenceBtn.querySelector('span').textContent = 'Show details';
+          toggleEvidenceIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+
+      // Trending data (hard-coded mock data with categories and activity)
+      const trendingItems = [
+        {
+          headline:
+            'Politician X claims new policy will reduce taxes for 90% of citizens.',
+          status: 'Unproven',
+          category: 'Politics',
+          verifications: 187,
+        },
+        {
+          headline:
+            'Viral post says a new phone update secretly activates user cameras.',
+          status: 'False',
+          category: 'Technology',
+          verifications: 342,
+        },
+        {
+          headline:
+            'Report alleges that city-wide water supply will be cut off next week.',
+          status: 'Mostly False',
+          category: 'Environment',
+          verifications: 264,
+        },
+        {
+          headline:
+            'Study claims that drinking two cups of coffee a day extends lifespan.',
+          status: 'Verified',
+          category: 'Health',
+          verifications: 421,
+        },
+        {
+          headline:
+            'New AI system is said to replace 80% of existing jobs within 3 years.',
+          status: 'Unproven',
+          category: 'Technology',
+          verifications: 305,
+        },
+        {
+          headline:
+            'Local council decides to ban all private cars from city center by 2026.',
+          status: 'False',
+          category: 'Environment',
+          verifications: 156,
+        },
+      ];
+
+      const trendingStatusStyles = {
+        False: 'bg-rose-600 text-white',
+        Verified: 'bg-emerald-600 text-white',
+        Unproven: 'bg-amber-400 text-slate-950',
+        'Mostly False': 'bg-rose-500 text-white',
+      };
+
+      const categoryPillStyles = {
+        Health: 'bg-emerald-500/10 text-emerald-200 ring-1 ring-emerald-400/40',
+        Technology: 'bg-indigo-500/10 text-indigo-200 ring-1 ring-indigo-400/40',
+        Environment: 'bg-green-500/10 text-green-200 ring-1 ring-green-400/40',
+        Politics: 'bg-sky-500/10 text-sky-200 ring-1 ring-sky-400/40',
+      };
+
+      function renderTrending() {
+        trendingGrid.innerHTML = '';
+
+        const selectedCategory = categoryFilter.value;
+        const selectedStatus = statusFilter.value;
+
+        const filtered = trendingItems
+          .filter((item) => {
+            const categoryMatch =
+              selectedCategory === 'all' || item.category === selectedCategory;
+            const statusMatch =
+              selectedStatus === 'all' || item.status === selectedStatus;
+            return categoryMatch && statusMatch;
+          })
+          .sort((a, b) => b.verifications - a.verifications);
+
+        if (!filtered.length) {
+          const empty = document.createElement('p');
+          empty.className = 'text-sm text-slate-400';
+          empty.textContent =
+            'No claims match the selected filters in the last 24 hours.';
+          trendingGrid.appendChild(empty);
+          return;
+        }
+
+        filtered.forEach((item) => {
+          const card = document.createElement('button');
+          card.type = 'button';
+          card.className =
+            'text-left bg-slate-950/70 rounded-3xl border border-slate-800 shadow-lg shadow-slate-950/60 hover:border-blue-400/70 hover:shadow-blue-900/60 transition p-4 sm:p-5 flex flex-col justify-between h-full cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-950';
+
+          const topRow = document.createElement('div');
+          topRow.className = 'flex items-start justify-between gap-3';
+
+          const headlineEl = document.createElement('p');
+          headlineEl.className =
+            'text-xs sm:text-sm font-semibold text-slate-50 leading-snug';
+          headlineEl.textContent = item.headline;
+
+          const categoryPill = document.createElement('span');
+          categoryPill.className =
+            'inline-flex items-center rounded-full px-3 py-1 text-[10px] font-semibold ' +
+            (categoryPillStyles[item.category] ||
+              'bg-slate-800 text-slate-200 ring-1 ring-slate-700');
+          categoryPill.textContent = item.category;
+
+          topRow.appendChild(headlineEl);
+          topRow.appendChild(categoryPill);
+
+          const statusWrap = document.createElement('div');
+          statusWrap.className = 'mt-4 flex items-center justify-between';
+
+          const badge = document.createElement('span');
+          badge.className =
+            'inline-flex items-center px-3 py-1 rounded-full text-[11px] font-semibold ' +
+            (trendingStatusStyles[item.status] ||
+              'bg-slate-700 text-slate-100');
+          badge.textContent = item.status;
+
+          const meta = document.createElement('div');
+          meta.className = 'flex flex-col items-end text-right';
+
+          const count = document.createElement('span');
+          count.className = 'text-[11px] text-slate-300';
+          count.textContent =
+            item.verifications.toLocaleString() + ' verifications';
+
+          const cta = document.createElement('span');
+          cta.className = 'text-[11px] font-medium text-blue-300';
+          cta.textContent = 'Check this';
+
+          meta.appendChild(count);
+          meta.appendChild(cta);
+
+          statusWrap.appendChild(badge);
+          statusWrap.appendChild(meta);
+
+          card.appendChild(topRow);
+          card.appendChild(statusWrap);
+
+          card.addEventListener('click', () => {
+            queryInput.value = item.headline;
+            const top =
+              heroSection.getBoundingClientRect().top + window.scrollY - 80;
+            window.scrollTo({ top, behavior: 'smooth' });
+            runFactCheck(item.headline);
+          });
+
+          trendingGrid.appendChild(card);
+        });
+      }
+
+      // Initial render of trending items
+      renderTrending();
+
+      // Filter listeners
+      categoryFilter.addEventListener('change', renderTrending);
+      statusFilter.addEventListener('change', renderTrending);
+
+      // Home link clears result and search
+      homeLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearResults();
+        const top =
+          heroSection.getBoundingClientRect().top + window.scrollY - 80;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+
+      // Clear/Remove result button
+      clearResultButton.addEventListener('click', () => {
+        clearResults();
+      });
+
+      // Login interactions
+      loginButton.addEventListener('click', () => {
+        if (!isLoggedIn) {
+          openLoginModal();
+        } else {
+          if (confirm('Log out of this demo account?')) {
+            isLoggedIn = false;
+            currentUser = null;
+            updateLoginUI();
+          }
+        }
+      });
+
+      opinionLoginButton.addEventListener('click', openLoginModal);
+
+      closeLoginModalBtn.addEventListener('click', closeLoginModal);
+
+      loginModal.addEventListener('click', (e) => {
+        if (e.target === loginModal) {
+          closeLoginModal();
+        }
+      });
+
+      loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = loginNameInput.value.trim();
+        const email = loginEmailInput.value.trim();
+        const password = loginPasswordInput.value.trim();
+
+        if (!name || !email || !password) {
+          return;
+        }
+
+        isLoggedIn = true;
+        currentUser = {
+          name,
+          email,
+        };
+
+        closeLoginModal();
+        updateLoginUI();
+      });
+
+      // Opinion form submission
+      opinionForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        if (!isLoggedIn || !currentUser) {
+          openLoginModal();
+          return;
+        }
+
+        const text = opinionInput.value.trim();
+        const reference = referenceInput.value.trim();
+        const query = resultQuery.textContent || '';
+
+        if (!text || !reference) {
+          opinionError.classList.remove('hidden');
+          return;
+        }
+
+        opinionError.classList.add('hidden');
+
+        opinions.push({
+          query,
+          text,
+          reference,
+          user: currentUser.name,
+          timestamp: new Date(),
+        });
+
+        opinionInput.value = '';
+        referenceInput.value = '';
+
+        renderOpinionsForQuery(query);
+      });
+
+      // Initialize UI login state
+      updateLoginUI();
+    })();
+  </script>
+</body>
+</html>
